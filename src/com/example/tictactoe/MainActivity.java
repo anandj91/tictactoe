@@ -1,63 +1,96 @@
 package com.example.tictactoe;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
+
+	boolean checkCROSS[] = new boolean[9];
+	boolean checkDOT[] = new boolean[9];
+
+	enum TURN {
+		CROSS, DOT
+	}
+
+	TURN turn = TURN.CROSS;
+
+	private void setCellImage(Button b) {
+		if(b.getText() == "X" || b.getText() == "O")
+			return;
+		
+		if (turn == TURN.CROSS) {
+			turn = TURN.DOT;
+			b.setText("X");
+			checkCROSS[getIndex(b.getId())] = true;
+		} else {
+			turn = TURN.CROSS;
+			b.setText("O");
+			checkDOT[getIndex(b.getId())] = true;
+		}
+	}
+	
+	private boolean checkGame(){
+		
+		
+		return false;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
-	}
+		Button[] cells = { (Button) findViewById(R.id.cell1),
+				(Button) findViewById(R.id.cell2),
+				(Button) findViewById(R.id.cell3),
+				(Button) findViewById(R.id.cell4),
+				(Button) findViewById(R.id.cell5),
+				(Button) findViewById(R.id.cell6),
+				(Button) findViewById(R.id.cell7),
+				(Button) findViewById(R.id.cell8),
+				(Button) findViewById(R.id.cell9) };
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+		for (int i = 0; i < 9; i++) {
+			Log.i("TIC-TAC-TOE", i + "");
+			cells[i].setOnClickListener(new OnClickListener() {
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					setCellImage((Button) v);
+				}
+			});
 		}
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
+	}
+
+	private int getIndex(int id) {
+		switch (id) {
+		case R.id.cell1:
+			return 0;
+		case R.id.cell2:
+			return 1;
+		case R.id.cell3:
+			return 2;
+		case R.id.cell4:
+			return 3;
+		case R.id.cell5:
+			return 4;
+		case R.id.cell6:
+			return 5;
+		case R.id.cell7:
+			return 6;
+		case R.id.cell8:
+			return 7;
+		case R.id.cell9:
+			return 8;
+		default:
+			return -1;
+
 		}
 	}
 
